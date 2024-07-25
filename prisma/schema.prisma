@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  createdAt DateTime @default(now())
+}
+
+model Config {
+  id                     Int    @id @default(autoincrement())
+  slotDuration           Int    @default(30) // in minutes
+  maxSlotsPerAppointment Int    @default(1)
+  operationalStartTime   String @default("09:00")
+  operationalEndTime     String @default("18:00")
+  daysOff                Json?
+  unavailableHours       Json?
+  timezone               String @default("Asia/jakarta")
+}
